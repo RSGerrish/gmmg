@@ -4,17 +4,15 @@ import { LeadGrid } from '../components/LeadGrid';
 // Images
 import bgArugula from '../../public/bg-arugula.jpg';
 
-const useStyles = createStyles((theme) => ({
-  boxStyle: {
-    minHeight: rem(100),
-  },
-}))
-
 export function Lander() {
-  const { classes } = useStyles();
-
   return ( 
-    <Box maw="80%" mx="auto" className={classes.boxStyle}>
+    <Box 
+      maw="80%" 
+      mx="auto" 
+      sx={(theme) => ({
+        minHeight: rem(100),
+      })}
+    >
       <BackgroundImage
         src={bgArugula.src}
         radius='md'>

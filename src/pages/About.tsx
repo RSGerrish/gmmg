@@ -1,6 +1,5 @@
 import { Box, BackgroundImage, Center, createStyles, rem } from '@mantine/core';
 
-
 // Images
 import bgArugula from '../../public/bg-arugula.jpg';
 

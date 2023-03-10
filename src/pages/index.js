@@ -1,16 +1,18 @@
 import Head from 'next/head';
 import { AppShell, Space, Footer, Header, Center, rem, createStyles } from '@mantine/core';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import clientPromise from '../lib/mongodb'
+import { useEffect, useState } from 'react';
+import dbConnect from '../lib/mongodb'
 
 // Components
 import { HeaderMenu } from '../components/HeaderMenu';
 import { FooterSimple}  from '../components/FooterSimple';
 
 // Pages
-import { Lander } from './Lander';
-import { About } from './About';
-import { useEffect, useState } from 'react';
+import Lander from './lander';
+import About from './about';
+import Dashboard from './dashboard';
+import Order from './order';
 
 // Setup Theme
 const useStyles = createStyles((theme) => ({
@@ -38,8 +40,7 @@ export async function getServerSideProps(context) {
     // `await clientPromise` will use the default database passed in the MONGODB_URI
     // However you can use another database (e.g. myDatabase) by replacing the `await clientPromise` with the following code:
     //
-    const client = await clientPromise
-    const db = client.json
+    await dbConnect();
     //
     // Then you can execute queries against your database like so:
     // db.find({}) or any of the MongoDB Node Driver commands
@@ -82,9 +83,10 @@ export default function Home({ isConnected }) {
               <Header p="md" className={classes.headerOuter}>
                 <HeaderMenu 
                   links={[
-                    { "link": "/About", "label": "About" },
-                    { "link": "/Market", "label": "Farmers Market" },
-                    { "link": "/Shop", "label": "Order" }
+                    { "link": "/about", "label": "About" },
+                    { "link": "/market", "label": "Farmers Market" },
+                    { "link": "/order", "label": "Order" },
+                    { "link": "/dashboard", "label": "Dashboard" }
                   ]}
                 />
               </Header>
@@ -93,9 +95,10 @@ export default function Home({ isConnected }) {
               <Footer>
                 <FooterSimple 
                   links={[
-                    { "link": "/About", "label": "About" },
-                    { "link": "/Market", "label": "Farmers Market" },
-                    { "link": "/Shop", "label": "Order" }
+                    { "link": "/about", "label": "About" },
+                    { "link": "/market", "label": "Farmers Market" },
+                    { "link": "/order", "label": "Order" },
+                    { "link": "/dashboard", "label": "Dashboard" }
                   ]}
                 />
               </Footer>
@@ -119,6 +122,14 @@ export default function Home({ isConnected }) {
               <Route
                 path="/about"
                 element={<About />}
+              />
+              <Route
+                path="/order"
+                element={<Order />}
+              />
+              <Route
+                path="/dashboard"
+                element={<Dashboard />}
               />
             </Routes>
             {/* <Lander /> */}
