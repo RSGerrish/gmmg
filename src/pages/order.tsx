@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Card, Center, createStyles, Grid, Group, Image, Text } from "@mantine/core";
+import { Badge, Box, Button, Card, Center, createStyles, Grid, Group, Image, Select, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 
 const useStyles = createStyles((theme) => ({
@@ -37,8 +37,6 @@ export function Order() {
 
       await setItems(json);
 
-      console.log(items);
-
       if (response.ok) {
         return;
       }
@@ -72,11 +70,11 @@ export function Order() {
       >
         <Grid justify='center'>
           {items && items.map((e, i) => (
-            <Grid.Col span={4}>
-              <Card key={i} mah={480} miw={200} maw={300} shadow="sm" padding="lg" radius="md" withBorder className={classes.cardStyle}>
+            <Grid.Col span={4} key={i}>
+              <Card mah={480} miw={200} maw={300} shadow="sm" padding="lg" radius="md" withBorder className={classes.cardStyle}>
                 <Card.Section>
                   <Image
-                    src="/item-springmix.jpg"
+                    src={e.imgUrl}
                     height={160}
                   />
                 </Card.Section>
@@ -87,10 +85,11 @@ export function Order() {
                   </Badge>
                 </Group>
 
-                <Text size="xs" color="dimmed">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
-                </Text>
-
+                <Text size="xs" color="dimmed">{e.description}</Text>
+                <Group position="apart" mt={10}>
+                  {e.disData && <Select maw='50%' data={e.disData} />}
+                  {e.price && <Badge color="red" variant="filled">$ {e.price}</Badge>}
+                </Group>
                 <Button variant="light" color="blue" fullWidth mt="md" radius="md">
                   Buy Now
                 </Button>

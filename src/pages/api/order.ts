@@ -4,7 +4,7 @@ import Item from '../../models/Item';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     await dbConnect();
-
+    
     switch(req.method) {
         case "GET": {
             const items = await Item.find({});
@@ -13,13 +13,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             break;
         }
         case "POST": { // Add Document to DB
-            const { name, description, imgPath, options, quantity, onSale } = JSON.parse(req.body);
+            const { name, description, imageUrl, options, quantity, onSale } = req.body;
+            console.log(req.body);
 
             try {
                 const newItem = await Item.create({
                     name: name,
                     description: description,
-                    imgPath: imgPath,
+                    imgUrl: imageUrl,
                     options: options,
                     quantity: quantity,
                     onSale: onSale,

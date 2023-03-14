@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# AWS Access Key
+aws_access_key_ID.txt

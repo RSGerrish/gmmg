@@ -1,4 +1,4 @@
-import { Container, Grid, SimpleGrid, Skeleton, Text, useMantineTheme, rem } from '@mantine/core';
+import { Container, Grid, SimpleGrid, Skeleton, useMantineTheme, rem } from '@mantine/core';
 
 const PRIMARY_COL_HEIGHT = rem(600);
 

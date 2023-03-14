@@ -9,7 +9,7 @@ const ItemSchema = new mongoose.Schema({
     type: String,
     required: false
   },
-  imgPath: {
+  imgUrl: {
     type: String,
     required: true
   },
@@ -17,6 +17,10 @@ const ItemSchema = new mongoose.Schema({
   options: {
     type: Object,
     required: true
+  },
+  disData: {
+    type: Object,
+    required: false
   },
   quantity: {
     type: Number,
