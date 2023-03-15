@@ -98,16 +98,20 @@ const handleSubmit = async (e: Event, name: String | null, description: String |
   }
 }
 
+interface ObjOptions {
+  oSize: string
+}
+
 export function AddItem() {
   const { classes } = useStyles();
 
-  const [name, setName] = useState<string | null>('');
+  const [name, setName] = useState<string>('');
   const [options, setOptions] = useState<object | {}>({});
   const [oSize, setSize] = useState<string | null>('');
   const [price, setPrice] = useState<number | ''>(0);
   const [quantity, setQuantity] = useState<number | ''>(0);
   const [disData, setDisData] = useState<[]>([]);
-  const [disPrice, setDisPrice] = useState<number | ''>(0);
+  const [disPrice, setDisPrice] = useState<string | null>('');
   const [disDesc, setDisDesc] = useState<string | ''>('');
   const [itemImage, setItemImage] = useState<File | null>(null);
   const [onSale, setOnSale] = useState(false);
@@ -195,7 +199,7 @@ export function AddItem() {
               <Button 
                 mr={10} 
                 onClick={() => {
-                  const obj = options;
+                  const obj:object | {}  = options;
                   const array:any = disData;
 
                   obj[oSize] = price;

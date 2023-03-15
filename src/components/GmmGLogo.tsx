@@ -1,6 +1,7 @@
 import logo from '../../public/robot.png'
 import { createStyles, getStylesRef, rem, Image, Text } from '@mantine/core';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const useStyles = createStyles((theme) => ({
   logoPos: {
@@ -29,7 +30,7 @@ const GmmGLogo: React.FunctionComponent<GmmGLogoProps>= ({ size, tColor }) => {
 
   return ( 
     <div className={classes.logoPos}>
-      <Link to="/">
+      <Link href="/">
         <Image src={logo.src} width={size} height={size} className={classes.imagePos} />
       </Link>
       <Text 

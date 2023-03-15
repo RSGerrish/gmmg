@@ -1,5 +1,5 @@
 import { Box, BackgroundImage, Center, createStyles, rem } from '@mantine/core';
-import { LeadGrid } from '../components/LeadGrid';
+import { LeadGrid } from './LeadGrid';
 
 // Images
 import bgArugula from '../../public/bg-arugula.jpg';

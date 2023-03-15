@@ -1,6 +1,7 @@
 import { createStyles, Container, Group, Anchor, rem, useMantineTheme, Text } from '@mantine/core';
 import { MantineLogo } from '@mantine/ds';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import GmmGLogo from './GmmGLogo';
 
 const useStyles = createStyles((theme) => ({
@@ -40,7 +41,7 @@ export function FooterSimple({ links }: FooterSimpleProps) {
   const items = links.map((link) => (
     <Link
       key={link.label}
-      to={link.link}
+      href={link.link}
     >
       {link.label}
     </Link>

@@ -1,5 +1,5 @@
 import { Box, Button, createStyles, Select, Title } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 
 const useStyles = createStyles((theme) => ({
   titlePos: {
@@ -29,17 +29,34 @@ const handleDelete = async (index:String) => {
   })
 }
 
+interface Options {
+  [key: string]: string,
+}
+
+interface StoreItem {
+  imgUrl: string,
+  _id: number,
+  __v: number,
+  description: string,
+  name: string,
+  onSale: boolean,
+  options: Options,
+  quantity: number
+}
+
 export function ManageItems() {
   const { classes } = useStyles();
   const [index, setIndex] = useState('');
   const [sData, setSData] = useState([]);
 
   useEffect(() => {
-    const selectData:Object[] = [];
+    const selectData:[] = [];
 
     const fetchItems = async () => {
       const response = await fetch('/api/order');
-      const json = await response.json();
+      const json:[] = await response.json();
+
+      console.log(json, 'json')
 
       json.map(e => {
         selectData.push({ value: e._id, label: e.name });

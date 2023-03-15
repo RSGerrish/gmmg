@@ -1,20 +1,49 @@
-import { Box, Space } from "@mantine/core";
+import { Space } from "@mantine/core";
+import { useEffect, useState } from "react";
 import { AddItem } from '../components/AddItem';
 import { ManageItems } from "../components/ManageItems";
+import dbConnect from '../lib/mongodb'
+import { ApplicationShell } from "../components/ApplicationShell";
 
-export function Dashboard() {
+export function PageDisplay() {
   return (
-    <Box 
-      maw="90%" 
-      mx="auto"
-      sx={() => ({
-        minHeight: '150px',
-      })}
-    >
+    <>
       <AddItem />
       <Space h="lg" />
       <ManageItems />
-    </Box>
+    </>
+  )
+}
+
+export async function getServerSideProps() {
+  try {
+    await dbConnect();
+
+    return {
+      props: { isConnected: true },
+    }
+  } catch (e) {
+    console.error(e)
+    return {
+      props: { isConnected: false },
+    }
+  }
+}
+
+export function Dashboard({ isConnected }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'object') {
+      // Check if document is finally loaded
+      setIsLoaded(true);
+    }
+  }, [])
+
+  return (
+    <>
+      {isLoaded && <ApplicationShell isConnected={isConnected} childEle={<PageDisplay />} />}
+    </>
   )
 }
 

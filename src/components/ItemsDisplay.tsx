@@ -1,34 +1,19 @@
-import { Badge, Box, Button, Card, Center, createStyles, Grid, Group, Image, Select, Text } from "@mantine/core";
+import { Badge, Box, Button, Card, Grid, Group, Image, Select, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 
-const useStyles = createStyles((theme) => ({
-  cardStyle: {
-    margin: '24px',
-  },
-}));
+interface StoreItem {
+  imgUrl: string,
+  _id: number,
+  __v: number,
+  description: string,
+  name: string,
+  onSale: boolean,
+  options: Object,
+  quantity: number
+}
 
-// export async function getServerSideProps() {
-//   const response = await fetch('/api/order');
-//   const json = await response.json();
-
-//   console.log(json);
-
-//   if (response.ok) {
-//     // return {
-//     //   props: { name, size, price, error: false },
-//     // }
-//   }
-//   if (!response.ok) {
-//     return {
-//       props: { error: true },
-//     }
-//   }
-// }
-
-
-export function Order() {
-  const { classes } = useStyles();
-  const [items, setItems] = useState();
+export function ItemsDisplay () {
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -46,7 +31,7 @@ export function Order() {
 
     fetchItems();
   }, []);
-
+  
   return (
     <Box 
       maw="80%" 
@@ -69,9 +54,9 @@ export function Order() {
         })}
       >
         <Grid justify='center'>
-          {items && items.map((e, i) => (
+          {items && items.map((e:StoreItem, i) => (
             <Grid.Col span={4} key={i}>
-              <Card mah={480} miw={200} maw={300} shadow="sm" padding="lg" radius="md" withBorder className={classes.cardStyle}>
+              <Card mah={480} miw={200} maw={300} shadow="sm" padding="lg" radius="md" withBorder m={24}>
                 <Card.Section>
                   <Image
                     src={e.imgUrl}
@@ -87,24 +72,17 @@ export function Order() {
 
                 <Text size="xs" color="dimmed">{e.description}</Text>
                 <Group position="apart" mt={10}>
-                  {e.disData && <Select maw='50%' data={e.disData} />}
-                  {e.price && <Badge color="red" variant="filled">$ {e.price}</Badge>}
+                  {e.disData && <Select maw='50%' data={e.options} />}
+                  {e.options && <Badge color="red" variant="filled">$ {e.options.price}</Badge>}
                 </Group>
                 <Button variant="light" color="blue" fullWidth mt="md" radius="md">
                   Buy Now
                 </Button>
               </Card>
             </Grid.Col>
-            // <div key={i} className="card-container">
-            //   <div>{e.name}</div>
-            //   <div>{e.size}</div>
-            //   <div>{e.price}</div>
-            // </div>
           ))}
         </Grid>
       </Box>
     </Box>
   )
 }
-
-export default Order;
