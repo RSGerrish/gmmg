@@ -72,7 +72,9 @@ export function ItemsDisplay () {
 
                 <Text size="xs" color="dimmed">{e.description}</Text>
                 <Group position="apart" mt={10}>
-                  {e.disData && <Select maw='50%' data={e.options} />}
+                  {/* Must fix the drop down menu and price display once I've figured out the
+                  data structure 100% */}
+                  {/* {e.options && <Select maw='50%' data={e.options} />} */}
                   {e.options && <Badge color="red" variant="filled">$ {e.options.price}</Badge>}
                 </Group>
                 <Button variant="light" color="blue" fullWidth mt="md" radius="md">

@@ -1,6 +1,6 @@
-import dbConnect from "../../lib/mongodb";
+import dbConnect from "../../../lib/mongodb";
 import type { NextApiRequest, NextApiResponse } from 'next'
-import Item from '../../models/Item';
+import Item from '../../../models/Item';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     await dbConnect();
@@ -8,6 +8,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     switch(req.method) {
         case "GET": {
             const items = await Item.find({});
+            console.log(items, 'items');
 
             res.status(201).json(items);
             break;

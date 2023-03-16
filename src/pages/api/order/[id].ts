@@ -19,7 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       console.log('deleting id ' + id);
       const regex = /[a-zA-Z0-9]{24}/;
 
-      if (!mongoose.Types.ObjectId.isValid(id)) {
+      if (id && !mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({error: 'Object ID is not valid, unable to delete item'})
       }
 
