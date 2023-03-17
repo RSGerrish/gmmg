@@ -1,5 +1,10 @@
 import { Badge, Box, Button, Card, Grid, Group, Image, Select, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
+import Link from 'next/link';
+
+interface Options {
+  [key: string]: string | number,
+}
 
 interface StoreItem {
   imgUrl: string,
@@ -8,7 +13,7 @@ interface StoreItem {
   description: string,
   name: string,
   onSale: boolean,
-  options: Object,
+  options: Options,
   quantity: number
 }
 
@@ -77,9 +82,11 @@ export function ItemsDisplay () {
                   {/* {e.options && <Select maw='50%' data={e.options} />} */}
                   {e.options && <Badge color="red" variant="filled">$ {e.options.price}</Badge>}
                 </Group>
-                <Button variant="light" color="blue" fullWidth mt="md" radius="md">
-                  Buy Now
-                </Button>
+                <Link href={'/order/' + e._id}>
+                  <Button variant="light" color="blue" fullWidth mt="md" radius="md">
+                    Buy Now
+                  </Button>
+                </Link>
               </Card>
             </Grid.Col>
           ))}

@@ -8,14 +8,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     switch(req.method) {
         case "GET": {
             const items = await Item.find({});
-            console.log(items, 'items');
 
             res.status(201).json(items);
             break;
         }
         case "POST": { // Add Document to DB
             const { name, description, imageUrl, options, quantity, onSale } = req.body;
-            console.log(req.body);
 
             try {
                 const newItem = await Item.create({

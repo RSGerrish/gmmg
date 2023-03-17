@@ -60,7 +60,7 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
-const handleSubmit = async (e: Event, name: String | null, description: String | null, img: File | null, options: Object | {}, disData: Object | {}, quantity: Number | '', onSale: Boolean | null) => {
+const handleSubmit = async (e: Event, name: String | null, description: String | null, img: File | null, options: Object | {}, quantity: Number | '', onSale: Boolean | null) => {
   e.preventDefault();
 
   // get secure url from our server
@@ -78,7 +78,7 @@ const handleSubmit = async (e: Event, name: String | null, description: String |
   const imageUrl:String | null = await url.split('?')[0];
 
   // post request to my server to store any extra data
-  const item = {name, description, imageUrl, options, disData, quantity, onSale};
+  const item = {name, description, imageUrl, options, quantity, onSale};
 
   const res = await fetch('/api/order', {
     method: 'POST',
@@ -98,16 +98,16 @@ const handleSubmit = async (e: Event, name: String | null, description: String |
   }
 }
 
-interface ObjOptions {
-  oSize: string
-}
+// interface ObjOptions {
+//   oSize: string
+// }
 
 export function AddItem() {
   const { classes } = useStyles();
 
   const [name, setName] = useState<string>('');
   const [options, setOptions] = useState<object | {}>({});
-  const [oSize, setSize] = useState<string | null>('');
+  const [oSize, setSize] = useState<string>('');
   const [price, setPrice] = useState<number | ''>(0);
   const [quantity, setQuantity] = useState<number | ''>(0);
   const [disData, setDisData] = useState<[]>([]);
@@ -246,7 +246,7 @@ export function AddItem() {
           <Space />
           <Button mt={20} w="50%" onClick={(e: any) => {
             console.log(`submitting: {${name}, ${oSize}, ${price}}`);
-            handleSubmit(e, name, disDesc, itemImage, options, disData, quantity, onSale);
+            handleSubmit(e, name, disDesc, itemImage, options, quantity, onSale);
             setName('');
             setDisDesc('');
             setItemImage(null);

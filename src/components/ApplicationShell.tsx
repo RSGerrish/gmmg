@@ -43,7 +43,9 @@ export function ApplicationShell ({ isConnected, childEle }: AppProps) {
                 { "link": "/about", "label": "About" },
                 { "link": "/market", "label": "Farmers Market" },
                 { "link": "/order", "label": "Order" },
-                { "link": "/dashboard", "label": "Dashboard" }
+                { "link": "/dashboard", "label": "Dashboard" },
+                { "link": "/api/auth/login", "label": "Login" },
+                { "link": "/api/auth/logout", "label": "Logout" },
                 ]
               }
             />
@@ -56,7 +58,9 @@ export function ApplicationShell ({ isConnected, childEle }: AppProps) {
                 { "link": "/about", "label": "About" },
                 { "link": "/market", "label": "Farmers Market" },
                 { "link": "/order", "label": "Order" },
-                { "link": "/dashboard", "label": "Dashboard" }
+                { "link": "/dashboard", "label": "Dashboard" },
+                { "link": "/api/auth/login", "label": "Login" },
+                { "link": "/api/auth/logout", "label": "Logout" },
               ]}
             />
           </Footer>
