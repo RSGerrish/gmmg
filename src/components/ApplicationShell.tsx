@@ -1,9 +1,13 @@
-import { AppShell, Center, createStyles, Footer, Header, Space } from "@mantine/core";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { AppShell, Center, createStyles, Footer, Header, Space, Title } from "@mantine/core";
 import { ReactNode, useEffect, useState } from "react";
 
-//Components
+// Components
 import { FooterSimple } from "./FooterSimple";
 import { HeaderMenu } from "./HeaderMenu";
+
+// Hooks
+import { useCartContext } from "../hooks/useCartContext";
 
 const useStyles = createStyles((theme) => ({
   headerOuter: {
@@ -12,21 +16,111 @@ const useStyles = createStyles((theme) => ({
 }))
 
 type AppProps = {
-  isConnected: Boolean;
-  childEle: ReactNode;
+  children: ReactNode;
 }
 
-export function ApplicationShell ({ isConnected, childEle }: AppProps) {
+export function ApplicationShell ({ children }: AppProps) {
   const { classes } = useStyles();
+
   const [isLoaded, setIsLoaded] = useState(false);
+  const [links, setLinks] = useState<Object[]>([]);
+  const [showCart, setShowCart] = useState<Boolean>(false);
+
+  const { user, error, isLoading } = useUser();
+  
+  const {cart, dispatch} = useCartContext();
 
   useEffect(() => {
     if (typeof window === 'object') {
       // Check if document is finally loaded
       setIsLoaded(true);
     }
-  }, [])
 
+    if (user) {
+      // Fetch list of users and check if logged in user already exists on DB
+      const fetchItems = async () => {
+        const response = await fetch('/api/users');
+        const json = await response.json();
+  
+        if (response.ok) {
+          for (let i = 0; i < json.length; i++) {
+            // If the user already exists... 
+            if (json[i].email === user.email) {
+              // Set Links on Header according to if a user is logged in as admin or not
+              if(json[i].admin) {
+                setLinks([
+                  { "link": "/about", "label": "About" },
+                  { "link": "/market", "label": "Farmers Market" },
+                  { "link": "/order", "label": "Order" },
+                  { "link": "/dashboard", "label": "Dashboard" },
+                  { "link": "/api/auth/logout", "label": "Logout" },
+                ])
+              }
+              if(!json[i].admin) {
+                setLinks([
+                  { "link": "/about", "label": "About" },
+                  { "link": "/market", "label": "Farmers Market" },
+                  { "link": "/order", "label": "Order" },
+                  { "link": "/api/auth/logout", "label": "Logout" },
+                ])
+              }
+              // Update their last logged in date*** MUST DO
+
+              // Check if cart items have been saved from previous session
+              if (json[i].cart.length) {
+                // If items exist in DB cart, then sync local cart
+                dispatch({ type: 'SET_CART', payload: json[i].cart })
+                return;
+              }    
+            }
+          }
+          // If the user does not already exist...
+          // Update DB with user and cart data
+          console.log('user does not exist in DB');
+          const newUser = { "name": user.nickname, "email":user.email, "admin": false, "lastLogin": user.updated_at, "cart": cart }
+          await fetch('/api/users', {
+            method: 'POST',
+            body: JSON.stringify(newUser),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          setLinks([
+            { "link": "/about", "label": "About" },
+            { "link": "/market", "label": "Farmers Market" },
+            { "link": "/order", "label": "Order" },
+            { "link": "/api/auth/logout", "label": "Logout" },
+          ])
+        }
+        if (!response.ok) return;
+      }
+      
+      setShowCart(true);
+      fetchItems();
+    }
+    
+    if (!user) {
+      setLinks([
+        { "link": "/about", "label": "About" },
+        { "link": "/market", "label": "Farmers Market" },
+        { "link": "/order", "label": "Order" },
+        { "link": "/api/auth/login", "label": "Login" },
+        ])
+    }
+  }, [user])
+
+  if (isLoading) return (
+    <Center>
+      <Title order={3}>Loading...</Title>
+    </Center>
+  )
+
+  if (error) return (
+    <Center>
+      <Title order={3}>{error.message}</Title>
+    </Center>
+  )
+  
   return(
     <>
       {isLoaded && <AppShell
@@ -38,16 +132,8 @@ export function ApplicationShell ({ isConnected, childEle }: AppProps) {
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="icon" href="/favicon.ico" />
             <HeaderMenu 
-              links={
-                [
-                { "link": "/about", "label": "About" },
-                { "link": "/market", "label": "Farmers Market" },
-                { "link": "/order", "label": "Order" },
-                { "link": "/dashboard", "label": "Dashboard" },
-                { "link": "/api/auth/login", "label": "Login" },
-                { "link": "/api/auth/logout", "label": "Logout" },
-                ]
-              }
+              links={links}
+              showCart={showCart}
             />
           </Header>
         }
@@ -57,26 +143,14 @@ export function ApplicationShell ({ isConnected, childEle }: AppProps) {
               links={[
                 { "link": "/about", "label": "About" },
                 { "link": "/market", "label": "Farmers Market" },
-                { "link": "/order", "label": "Order" },
-                { "link": "/dashboard", "label": "Dashboard" },
-                { "link": "/api/auth/login", "label": "Login" },
-                { "link": "/api/auth/logout", "label": "Logout" },
+                { "link": "/order", "label": "Order" },,
               ]}
             />
           </Footer>
         }
       >
         <Space h="xl" />
-        {isConnected ? (
-          <Center>
-            <h2>You are connected to MongoDB</h2>
-          </Center>
-        ) : (
-          <Center>
-            <h2>You are NOT connected to MongoDB!</h2>
-          </Center>
-        )}
-        { childEle }
+        { children }
         <Space h="xl" />
         <Space h="xl" />
         <Space h="xl" />

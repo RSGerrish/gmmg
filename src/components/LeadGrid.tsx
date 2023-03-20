@@ -14,11 +14,6 @@ export function LeadGrid({ primary, secondary, tertiary1, tertiary2 }:AppProps) 
   const theme = useMantineTheme();
   const SECONDARY_COL_HEIGHT = `calc(${PRIMARY_COL_HEIGHT} / 2 - ${theme.spacing.md} / 2)`;
 
-  console.log(primary, 'primary');
-  console.log(secondary, 'secondary');
-  console.log(tertiary1, 'tertiary1');
-  console.log(tertiary2, 'tertiary2');
-
   return (
     <Container miw="80%" my="md" mx={0} p={0} >
       <SimpleGrid cols={2} spacing="md" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>

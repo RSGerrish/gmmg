@@ -5,6 +5,10 @@ import { ManageItems } from "../components/ManageItems";
 import dbConnect from '../lib/mongodb'
 import { ApplicationShell } from "../components/ApplicationShell";
 
+type AppProps = {
+  isConnected:Boolean,
+}
+
 export function PageDisplay() {
   return (
     <>
@@ -30,8 +34,10 @@ export async function getServerSideProps() {
   }
 }
 
-export function Dashboard({ isConnected }) {
+export function Dashboard(props: AppProps) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const { isConnected } = props;
+
 
   useEffect(() => {
     if (typeof window === 'object') {
@@ -42,7 +48,7 @@ export function Dashboard({ isConnected }) {
 
   return (
     <>
-      {isLoaded && <ApplicationShell isConnected={isConnected} childEle={<PageDisplay />} />}
+      {isLoaded && <PageDisplay />}
     </>
   )
 }

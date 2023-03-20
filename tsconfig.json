@@ -18,6 +18,6 @@
       "./*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/index.js", "src/models/Item.js", "src/lib/mongodb.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/index.js", "src/models/Item.js", "src/lib/mongodb.js", "src/context/CartContext.js", "src/hooks/useCartContext.tsx"],
   "exclude": ["node_modules"]
 }

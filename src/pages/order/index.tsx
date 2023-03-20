@@ -4,6 +4,6 @@ import { ItemsDisplay } from "../../components/ItemsDisplay";
 export default function Order() {
 
   return (
-    <ApplicationShell isConnected={false} childEle={<ItemsDisplay />} />
+    <ItemsDisplay />
   )
 }

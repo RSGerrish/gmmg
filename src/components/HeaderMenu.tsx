@@ -1,8 +1,8 @@
 import { createStyles, Header, Menu, Group, Center, Burger, Container, rem, useMantineTheme } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconChevronDown } from '@tabler/icons-react';
-// import { Link } from 'react-router-dom';
 import Link from 'next/link';
+import Cart from './Cart';
 
 import GmmGLogo from './GmmGLogo';
 
@@ -60,9 +60,10 @@ const useStyles = createStyles((theme) => ({
 
 interface HeaderSearchProps {
   links: { link: string; label: string; }[];
+  showCart: Boolean;
 }
 
-export function HeaderMenu({ links }: HeaderSearchProps) {
+export function HeaderMenu({ links, showCart }: HeaderSearchProps) {
   const [opened, { toggle }] = useDisclosure(false);
   const { classes } = useStyles();
   const theme = useMantineTheme();
@@ -84,16 +85,19 @@ export function HeaderMenu({ links }: HeaderSearchProps) {
       <Container>
         <div className={classes.inner}>
           <GmmGLogo size={70} tColor={theme.white} />
-          <Group spacing={5} className={classes.links}>
-            {items}
+          <Group>
+            <Group spacing={5} className={classes.links}>
+              {items}
+            </Group>
+            {showCart && <Cart />}
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              className={classes.burger}
+              size="sm"
+              color="#fff"
+            />
           </Group>
-          <Burger
-            opened={opened}
-            onClick={toggle}
-            className={classes.burger}
-            size="sm"
-            color="#fff"
-          />
         </div>
       </Container>
     </Header>
