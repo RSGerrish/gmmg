@@ -15,6 +15,17 @@ export const cartReducer = (state, action) => {
       return {
         cart: [...state.cart, action.payload]
       }
+    case 'EDIT_ITEM':
+      console.log(action.payload, 'payload object');
+      console.log(state.cart, 'previous cart items');
+
+      return {
+        cart: action.payload
+      }
+    case 'DELETE_ITEM':
+      return {
+        cart: state.cart.filter(item => item._id !== action.payload._id)
+      }
     default:
       return state;
   }

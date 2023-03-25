@@ -19,16 +19,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       console.log(req.body, 'req.body')
 
-      const user = await User.findOneAndUpdate({_id: id}, {
+      const newUser = await User.findOneAndUpdate({_id: id}, {
         ...req.body
       })
 
-      if (!user) {
+      console.log(newUser.cart[1].optionsOrdered, 'new user');
+
+      if (!newUser) {
         return res.status(404).json({error: 'No such user'});
       }
 
-      res.status(200).json(user);
-      //Continue from here
+      res.status(200).json(newUser);
     }
+    break;
+  
+  default:
+    res.status(400).json({ success: false })
+    break;
   }
+
 }

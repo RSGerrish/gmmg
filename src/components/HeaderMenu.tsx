@@ -1,8 +1,7 @@
-import { createStyles, Header, Menu, Group, Center, Burger, Container, rem, useMantineTheme } from '@mantine/core';
+import { createStyles, Header, Group, Burger, Container, rem, useMantineTheme } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconChevronDown } from '@tabler/icons-react';
 import Link from 'next/link';
-import Cart from './Cart';
+import CartIcon from './CartIcon';
 
 import GmmGLogo from './GmmGLogo';
 
@@ -89,7 +88,7 @@ export function HeaderMenu({ links, showCart }: HeaderSearchProps) {
             <Group spacing={5} className={classes.links}>
               {items}
             </Group>
-            {showCart && <Cart />}
+            {showCart && <CartIcon />}
             <Burger
               opened={opened}
               onClick={toggle}

@@ -34,7 +34,7 @@ export async function getServerSideProps() {
   }
 }
 
-export function Dashboard(props: AppProps) {
+export default function Dashboard(props: AppProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const { isConnected } = props;
 
@@ -52,5 +52,3 @@ export function Dashboard(props: AppProps) {
     </>
   )
 }
-
-export default Dashboard;

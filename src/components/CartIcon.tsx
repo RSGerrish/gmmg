@@ -1,6 +1,8 @@
-import { createStyles, Grid, Image, List, Popover, Text, Title } from '@mantine/core';
+import { Button, createStyles, Grid, Group, Image, List, Popover, Text, Title } from '@mantine/core';
 import { IconShoppingCart } from '@tabler/icons-react';
+import { ReactNode } from 'react';
 import { useCartContext } from "../hooks/useCartContext";
+import Link from 'next/link';
 
 const useStyles = createStyles((theme) => ({
   listStyle: {
@@ -24,7 +26,7 @@ export default function Cart() {
   const {cart} = useCartContext();
   const { classes } = useStyles();
 
-  let cartItems = <></>;
+  let cartItems:ReactNode;
 
   console.log(cart, 'cart');
 
@@ -48,7 +50,6 @@ export default function Cart() {
           <Grid.Col span={1} className={classes.gridColStyle}>
           {item.optionsOrdered.price && <Text>@{item.optionsOrdered.price.toString()}</Text>}
           </Grid.Col>
-          {console.log(item.optionsOrdered.price)}
           <Grid.Col span={1} className={classes.gridColStyle}>
             {item.optionsOrdered.price && <Text>${((item.optionsOrdered.quantity * item.optionsOrdered.price).toString())}</Text>}
           </Grid.Col>
@@ -74,6 +75,18 @@ export default function Cart() {
         <List listStyleType="none">
           {cartItems}
         </List>
+        <Group position="right">
+          <Link href='/cart'>
+            <Button>
+              View Cart
+            </Button>
+          </Link>
+          <Link href='/checkout'>
+            <Button>
+              Checkout
+            </Button>
+          </Link>
+        </Group>
       </Popover.Dropdown>
     </Popover>
   )
